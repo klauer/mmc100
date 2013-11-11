@@ -55,21 +55,21 @@ Installation
     3. If the find_usb.sh script is being used, the $MMC100_PORT environment variable will be automatically set. 
         If the port which the MMC100 is connected to is fixed, you can set it in place of $(MMC100_PORT), on the line
         `epicsEnvSet("MMC100_PORT", "$(MMC100_PORT)")` -- and st1.cmd can then replace st.cmd. 
-    5. If necessary, you can change the rate at which the controller is polled for positions and such:
+    4. If necessary, you can change the rate at which the controller is polled for positions and such:
         ```
         #MMC100CreateController(portName, MMC100PortName, numAxes, movingPollPeriod, idlePollPeriod)
         MMC100CreateController("$(MMC100_PORT)", "$(ASYN_PORT)", 1, 50, 100)
         ```
         The moving and idle poll periods are both in milliseconds. The former rate is used when an axis is in motion, the latter otherwise.
-    6. Set-up the limits and encoder settings for each axis on the controllers (see the example in the file).
-    7.  If using autosave, add lines in auto_positions.req and auto_settings.req for each motor. If not using autosave, comment create_monitor_set lines.
+    5. Set-up the limits and encoder settings for each axis on the controllers (see the example in the file).
+    6.  If using autosave, add lines in auto_positions.req and auto_settings.req for each motor. If not using autosave, comment create_monitor_set lines.
 4.  Edit iocBoot/iocMMC100/MMC100.sub
     Modify the lines so that there is one motor.db line per axis. Each will be named $(P)$(M).
 5. Go to the top directory and `make`
 6. If all goes well:
     ```
     $ cd iocBoot/iocmmc100
-    $ chmod +x st.cmd`
+    $ chmod +x st.cmd
     $ ./st.cmd
 
     If not using the find_usb.sh script, run ./st1.cmd directly:
