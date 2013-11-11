@@ -96,10 +96,11 @@ static void MMC100CreateControllerCallFunc(const iocshArgBuf *args)
   * \param[in] polarity          Normal (0) or reverse operation (1) (change if encoder pos seems wrong)
   * \param[in] deadband_counts   Continuous oscillation (0) or encoder counts (>=1) (int)
   * \param[in] deadband_timeout  Time to move into the deadband area (0.0 = infinite) (double)
+  * \param[in] feedback          Feedback option [0, 1, 2, 3] (int)
   */
 extern "C" int 
 MMC100EncoderSetup(const char *portName, int axis_num, int analog, double resolution,
-                    int polarity, int deadband_counts, double deadband_timeout)
+                    int polarity, int deadband_counts, double deadband_timeout, int feedback)
 {
   MMC100Controller* controller=findByPortName(portName);
   if (!controller)
@@ -112,7 +113,7 @@ MMC100EncoderSetup(const char *portName, int axis_num, int analog, double resolu
     return asynError;
   }
 
-  axis->setupEncoder(analog, resolution, polarity, deadband_counts, deadband_timeout);
+  axis->setupEncoder(analog, resolution, polarity, deadband_counts, deadband_timeout, feedback);
   return(asynSuccess);
 }
 

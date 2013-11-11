@@ -7,33 +7,37 @@ dbLoadDatabase("../../dbd/mmc100test.dbd",0,0)
 mmc100test_registerRecordDeviceDriver(pdbbase) 
 
 # Get the MMC100 port from the environment variable settings (see st.sh)
-epicsEnvSet "MMC100_PORT" "$(MMC100_PORT)"
-epicsEnvShow "MMC100_PORT"
+epicsEnvSet("MMC100_PORT", "$(MMC100_PORT)")
+
+epicsEnvSet("PORT", "MMC100")
+epicsEnvSet("ASYN_PORT", "$(ASYN_PORT=MMC100_ASYN)")
+
+# Autosave prefix
 epicsEnvSet("AS_PREFIX", "MMC100:AS:")
 
-drvAsynSerialPortConfigure("IP1", "$(MMC100_PORT)", 0, 0, 0)
-asynSetOption("IP1", -1,"baud",38400)
-asynSetOption("IP1", -1,"bits",8)
-asynSetOption("IP1", -1,"parity","none")
-asynSetOption("IP1", -1,"stop",1)
-asynSetOption("IP1", -1, "clocal", "N")
-asynSetOption("IP1", -1, "crtscts", "N")
+drvAsynSerialPortConfigure("$(ASYN_PORT)", "$(MMC100_PORT)", 0, 0, 0)
+asynSetOption("$(ASYN_PORT)", -1,"baud",38400)
+asynSetOption("$(ASYN_PORT)", -1,"bits",8)
+asynSetOption("$(ASYN_PORT)", -1,"parity","none")
+asynSetOption("$(ASYN_PORT)", -1,"stop",1)
+asynSetOption("$(ASYN_PORT)", -1, "clocal", "N")
+asynSetOption("$(ASYN_PORT)", -1, "crtscts", "N")
 
 #MMC100CreateController(portName, MMC100PortName, numAxes, movingPollPeriod, idlePollPeriod)
-MMC100CreateController("MMC100", "IP1", 1, 50, 100)
+MMC100CreateController("$(MMC100_PORT)", "$(ASYN_PORT)", 1, 50, 100)
 
-#asynSetTraceMask("MMC100", 0, 9)
-#asynSetTraceMask("IP1", -1, 9)
+#asynSetTraceMask("$(MMC100_PORT)", 0, 9)
+#asynSetTraceMask("$(ASYN_PORT)", -1, 9)
 #
-#asynSetTraceIOMask("MMC100", -1, 255)
-#asynSetTraceIOMask("IP1", -1, 255)
+#asynSetTraceIOMask("$(MMC100_PORT)", -1, 255)
+#asynSetTraceIOMask("$(ASYN_PORT)", -1, 255)
 
 # port_name
 # axis_num
 # enable            Disable (0) or enable (1) limit switches
 # active_level      Active low (0) or active high (1)
 #MMC100LimitSetup(portName, axis_num, enable, active_level)
-MMC100LimitSetup("MMC100", 0, 1, 1)
+MMC100LimitSetup("$(MMC100_PORT)", 0, 1, 1)
 
 # port_name
 # axis_num
@@ -42,7 +46,7 @@ MMC100LimitSetup("MMC100", 0, 1, 1)
 # polarity          Normal (0) or reverse operation (1) (change if encoder pos seems wrong)
 # deadband_counts   Continuous oscillation (0) or encoder counts (>=1) (int)
 # deadband_timeout  Time to move into the deadband area (0.0 = infinite) (double)
-MMC100EncoderSetup("MMC100", 0, 0, 0.005, 1, 1, 0.0)
+MMC100EncoderSetup("$(MMC100_PORT)", 0, 0, 0.005, 1, 1, 0.0)
 
 dbLoadTemplate("mmc100.sub")
 
