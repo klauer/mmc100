@@ -1,0 +1,5 @@
+NAME=mmc100
+PORT=4001
+HOST=xf03idc-disp3
+USER=softioc
+CHDIR=$CHDIR/iocBoot/iocmmc100

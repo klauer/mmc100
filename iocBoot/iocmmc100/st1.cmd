@@ -1,4 +1,4 @@
-#!../../bin/linux-x86/mmc100test
+#!../../bin/linux-x86_64/mmc100test
 
 < envPaths
 
