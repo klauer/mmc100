@@ -24,5 +24,6 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 SUPPORT=/epics/support
 
 # Requires asyn 4-18+
-ASYN=$(SUPPORT)/asyn/4-18/
+ASYN=$(SUPPORT)/asyn/4-26
+MOTOR=$(SUPPORT)/motor/6-9
 EPICS_BASE=/usr/lib/epics
