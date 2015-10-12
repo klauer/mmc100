@@ -16,10 +16,15 @@ DBD += mmc100test.dbd
 mmc100test_DBD += base.dbd
 
 # Include dbd files from all support applications:
-mmc100test_DBD += drvAsynSerialPort.dbd motorRecord.dbd motorSupport.dbd asyn.dbd mmc100.dbd asSupport.dbd
+mmc100test_DBD += drvAsynSerialPort.dbd motorRecord.dbd motorSupport.dbd
+mmc100test_DBD += asyn.dbd mmc100.dbd asSupport.dbd
+mmc100test_DBD += calcSupport.dbd system.dbd devIocStats.dbd
+# mmc100test_DBD += caPutLog.dbd
 
 # Add all the support libraries needed by this IOC
-mmc100test_LIBS += asyn mmc100 motor autosave
+mmc100test_LIBS += asyn mmc100 motor autosave calc
+mmc100test_LIBS += devIocStats
+# mmc100test_LIBS += caPutLog
 
 # mmc100test_registerRecordDeviceDriver.cpp derives from mmc100test.dbd
 mmc100test_SRCS += mmc100test_registerRecordDeviceDriver.cpp

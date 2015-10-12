@@ -1,0 +1,63 @@
+record(motor,"$(P)Mtr")
+{
+    alias("$(ALIAS)")
+    field(DESC,"$(DESC)")
+    field(DTYP,"$(DTYP)")
+    field(OUT,"@asyn($(PORT),$(ADDR))")
+    field(RTRY,"0")
+    # Use of MRES is deliberate on the following line. 
+    # This sets the retry deadband to the smallest possible size.
+    field(DIR,$(DIR="Pos"))
+    field(RDBD,$(MRES="1"))
+    field(MRES,$(MRES="1"))
+    field(ERES,$(MRES="1"))
+    field(EGU,"$(EGU="None")")
+    field(PREC,$(PREC="6"))
+
+    info(autosaveFields_pass0, "DVAL DIR DHLM DLLM TWV SREV MRES ERES RRES VBAS VELO VMAX ACCL BDST BVEL BACC RDBD DESC EGU RTRY UEIP URIP DLY RDBL PREC DISA DISP FOFF OFF FRAC OMSL JVEL JAR PCOF ICOF DCOF HVEL NTM NTMF")
+
+    info(autosaveFields, "DIR DHLM DLLM TWV SREV MRES ERES RRES VBAS VELO VMAX ACCL BDST BVEL BACC RDBD DESC EGU RTRY UEIP URIP DLY RDBL PREC DISA DISP FOFF OFF FRAC OMSL JVEL JAR PCOF ICOF DCOF HVEL NTM NTMF")
+}
+
+record(transform, "$(P)Mtr_ableput") {
+  field(CLCB, "a")
+  field(CLCC, "a")
+  field(OUTA, "$(P)Mtr.DISA NPP NMS")
+  field(OUTB, "$(P)Mtr.DISP NPP NMS")
+  field(OUTC, "$(P)Mtr.DISA NPP NMS")
+}
+
+record(bo, "$(P)Mtr_able") {
+  field(DESC, "$(DESC) enable")
+  field(PINI, "YES")
+  field(OUT, "$(P)Mtr_ableput.A PP MS")
+  field(ZNAM, "Enable")
+  field(ONAM, "Disable")
+}
+
+# allow users to change the velocity (or speed)
+# by sending a multipler to the
+#    $(P)Mtr_vCh.A field
+# Range check output; SBAS <= S <= SMAX.
+record(scalcout, "$(P)Mtr_vCh") {
+  field(DESC, "$(DESC) change velocity")
+  field(INPB, "$(P)Mtr.S")
+  field(INPC, "$(P)Mtr.SBAS")
+  field(INPD, "$(P)Mtr.SMAX")
+  field(CALC, "min(max(a*b,c),d)")
+  field(OUT, "$(P)Mtr.S")
+}
+
+# allow users to change the tweak value
+# by sending a multipler to the
+#    $(P)Mtr_twCh.A field
+# Range check output; TWV <= HLM - LLM.
+record(scalcout, "$(P)Mtr_twCh") {
+  field(DESC, "$(DESC) change TWV")
+  field(INPB, "$(P)Mtr.TWV")
+  field(INPC, "$(P)Mtr.MRES")
+  field(INPD, "$(P)Mtr.HLM")
+  field(INPE, "$(P)Mtr.LLM")
+  field(CALC, "min(max(a*b,c),d-e)")
+  field(OUT, "$(P)Mtr.TWV")
+}

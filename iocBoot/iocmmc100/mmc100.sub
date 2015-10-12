@@ -1,16 +1,19 @@
-file "motor.db"
+file "asyn_motor_alias.db"
 {
   pattern
-  {             P,     M,        DTYP,      PORT, ADDR,          DESC,  EGU, DIR, VMAX, VELO, VBAS, ACCL, BDST, BVEL, BACC,     MRES, PREC,DHLM,   DLLM, RTRY,   RDBD,  DLY, OFF, INIT }
-  { MMC100:,  "m1", "asynMotor",  "MMC100",    0, "MMC100 sphi",   mm, Pos, 10.0,  0.5, 0.50,  0.2,    0,    1,   .2, 0.000001,    8,   5,     -5,    0, 0.000001, 0.05,   0,   "" }
+  {                           P,         DTYP,      PORT, ADDR,          DESC,  EGU, DIR, VMAX, VELO, VBAS, ACCL, BDST, BVEL, BACC,     MRES, PREC,DHLM,   DLLM, RTRY,   RDBD,  DLY, OFF, ALIAS }
+  { "XF03IDC-ES{MMC100:1-Ax:1}",  "asynMotor",  "MMC100",    0, "MMC100 cx",   mm, Pos, 10.0,  0.5, 0.50,  0.2,    0,    1,   .2, 0.000001,    8,   5,     -5,    0, 0.000001, 0.05,   0,   "p_cx" }
+  { "XF03IDC-ES{MMC100:1-Ax:2}",  "asynMotor",  "MMC100",    1, "MMC100 cz",   mm, Pos, 10.0,  0.5, 0.50,  0.2,    0,    1,   .2, 0.000001,    8,   5,     -5,    0, 0.000001, 0.05,   0,   "p_cz" }
+  { "XF03IDC-ES{MMC100:1-Ax:3}",  "asynMotor",  "MMC100",    2, "MMC100 vz",   mm, Pos, 10.0,  0.5, 0.50,  0.2,    0,    1,   .2, 0.000001,    8,   5,     -5,    0, 0.000001, 0.05,   0,   "p_vz" }
+  { "XF03IDC-ES{MMC100:1-Ax:4}",  "asynMotor",  "MMC100",    3, "MMC100 ax1",   mm, Pos, 10.0,  0.5, 0.50,  0.2,    0,    1,   .2, 0.000001,    8,   5,     -5,    0, 0.000001, 0.05,   0,   "mmc100_ax4" }
 }
 
 
 file "asynRecord.db"
 {
   pattern
-  {          P,         R,      PORT,   ADDR,   OMAX, IMAX }
-  {MMC100:asyn:,     sphi,    MMC100,      0,    256,  256 }
+  {                     P,        R,      PORT,   ADDR,   OMAX, IMAX }
+  {"XF03IDC-ES{MMC100:1}",     asyn,    MMC100,      0,    256,  256 }
 }
 
 
