@@ -145,9 +145,15 @@ asynStatus MMC100Controller::writeReadInt(int& value, const char* fmt, ...) {
   va_end(argptr);
 
   if (status != asynSuccess || input[0] != '#') {
-    asynPrint(pasynUser_, ASYN_TRACE_ERROR,
-        "%s: writeRead failed: %s (ret=%d) received: %s\n",
-        functionName, outString_, status, input);
+    if (read == 0) {
+      asynPrint(pasynUser_, ASYN_TRACE_ERROR,
+          "%s: writeRead failed: %s (ret=%d) no data received\n",
+          functionName, outString_, status);
+    } else {
+      asynPrint(pasynUser_, ASYN_TRACE_ERROR,
+          "%s: writeRead failed: %s (ret=%d) received: %s\n",
+          functionName, outString_, status, input);
+    }
     return asynError;
   } else {
     value = atoi(&input[1]);
@@ -181,6 +187,10 @@ asynStatus MMC100Controller::writeRead(char *input, size_t* nread, const char *f
                                        buf, strlen(buf),
                                        input, MMC100_STRING_SIZE,
                                        timeout_, &nwrite, nread, &eomReason);
+   
+  if (*nread == 0) {
+    input[*nread] = 0;
+  }
 
 #if DEBUG
   fprintf(stderr, "%s:%s: Read (%db): %s\n",
