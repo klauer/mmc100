@@ -15,8 +15,8 @@ epicsEnvSet("EPICS_CA_ADDR_LIST", "10.3.0.255")
 dbLoadDatabase("../../dbd/mmc100test.dbd",0,0)
 mmc100test_registerRecordDeviceDriver(pdbbase) 
 
-# Get the MMC100 port from the environment variable settings (see st.sh)
-epicsEnvSet("MMC100_PORT", "MMC_1")
+# Get the MMC100 port from the environment variable settings (see st.cmd)
+# epicsEnvSet("MMC100_PORT", "MMC_1")
 
 epicsEnvSet("PORT", "MMC100")
 epicsEnvSet("ASYN_PORT", "$(ASYN_PORT=MMC100_ASYN)")
@@ -24,7 +24,7 @@ epicsEnvSet("ASYN_PORT", "$(ASYN_PORT=MMC100_ASYN)")
 # Autosave prefix
 epicsEnvSet("AS_PREFIX", "MMC100:AS:")
 
-drvAsynSerialPortConfigure("$(ASYN_PORT)", "MMC_1", 0, 0, 0)
+drvAsynSerialPortConfigure("$(ASYN_PORT)", "$(MMC100_PORT)", 0, 0, 0)
 asynSetOption("$(ASYN_PORT)", -1,"baud", 38400)
 asynSetOption("$(ASYN_PORT)", -1,"bits", 8)
 asynSetOption("$(ASYN_PORT)", -1,"parity", "none")
