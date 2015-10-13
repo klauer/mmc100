@@ -1,0 +1,7 @@
+*.sw[op]
+db/
+bin/
+dbd/
+*.req
+O.*/
+lib/
