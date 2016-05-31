@@ -187,7 +187,7 @@ asynStatus MMC100Controller::writeRead(char *input, size_t* nread, const char *f
                                        buf, strlen(buf),
                                        input, MMC100_STRING_SIZE,
                                        timeout_, &nwrite, nread, &eomReason);
-   
+
   if (*nread == 0) {
     input[*nread] = 0;
   }
@@ -198,7 +198,7 @@ asynStatus MMC100Controller::writeRead(char *input, size_t* nread, const char *f
 #endif
   asynPrint(pasynUser_, ASYN_TRACEIO_DRIVER,
     "%s:%s: Read (%db): %s\n",
-    driverName, functionName, *nread, input);
+    driverName, functionName, (int)(*nread), input);
 
   unlock();
 
@@ -520,6 +520,8 @@ asynStatus MMC100Axis::move(double position, int relative, double min_velocity, 
     // absolute
     ret=pc_->write("%dMVA%3.6f", id_, position);
   }
+
+  printf("Move %d to %3.6f\n", id_, position);
   check_error();
   return ret;
 }
