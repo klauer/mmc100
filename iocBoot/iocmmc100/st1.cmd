@@ -38,7 +38,7 @@ MMC100CreateController("MMC_1", "$(ASYN_PORT)", 4, 50, 100)
 #asynSetTraceMask("MMC_1", 0, 9)
 #asynSetTraceMask("$(ASYN_PORT)", -1, 9)
 #
-#asynSetTraceIOMask("MMC_1", -1, 255)
+#asynSetTraceIOMask("MMC_0", -1, 255)
 #asynSetTraceIOMask("$(ASYN_PORT)", -1, 255)
 
 # port_name
@@ -58,10 +58,11 @@ MMC100LimitSetup("MMC_1", 3, 1, 1)
 # polarity          Normal (0) or reverse operation (1) (change if encoder pos seems wrong)
 # deadband_counts   Continuous oscillation (0) or encoder counts (>=1) (int)
 # deadband_timeout  Time to move into the deadband area (0.0 = infinite) (double)
-MMC100EncoderSetup("MMC_1", 0, 0, 0.005, 1, 1, 0.0)
-MMC100EncoderSetup("MMC_1", 1, 0, 0.005, 1, 1, 0.0)
-MMC100EncoderSetup("MMC_1", 2, 0, 0.005, 1, 1, 0.0)
-MMC100EncoderSetup("MMC_1", 3, 0, 0.005, 1, 1, 0.0)
+# feedback          0 open-loop 3 closed-loop
+MMC100EncoderSetup("MMC_1", 0, 0, 0.005, 1, 500, 5.0, 3)
+MMC100EncoderSetup("MMC_1", 1, 0, 0.005, 1, 500, 10.0, 3)
+MMC100EncoderSetup("MMC_1", 2, 0, 0.005, 1, 500, 5.0, 3)
+MMC100EncoderSetup("MMC_1", 3, 0, 0.005, 1, 500, 0.0, 3)
 
 dbLoadTemplate("mmc100.sub")
 
